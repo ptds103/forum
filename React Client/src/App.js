@@ -4,7 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import { Dashboard } from "./pages/dashboard/dashboard";
 import RegisterPage from "./pages/RegisterPage";
 import { Topbar } from "./pages/Topbar";
-import { Forumpage } from "./pages/Forumpage";
+import { Forumpage } from "./pages/Forumpage/Forumpage";
 import { Viewforum } from "./pages/Viewforum";
 import { Edit } from "./pages/Edit";
 import { Write } from "./pages/Write";

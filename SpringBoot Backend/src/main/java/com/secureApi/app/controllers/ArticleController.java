@@ -3,10 +3,8 @@ package com.secureApi.app.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.swing.event.ListSelectionEvent;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.secureApi.app.entities.Article;
-import com.secureApi.app.entities.User;
+
 import com.secureApi.app.exception.UserNotFoundException;
 import com.secureApi.app.repository.ArticleRepository;
-import com.secureApi.app.repository.UserDetailsRepository;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -30,7 +27,6 @@ public class ArticleController {
 
     @Autowired
     private ArticleRepository ArticleRepository;
-    private UserDetailsRepository UserDetailsRepository;
 
     @PostMapping("/article")
     Article newArticle(@RequestBody Article newArticle) {
@@ -42,22 +38,19 @@ public class ArticleController {
         return ArticleRepository.findAll();
     }
 
- 
     @GetMapping("/article/user/{user}")
-    public List<Article> getTopArticle(@PathVariable String user){
+    public List<Article> getTopArticle(@PathVariable String user) {
         List<Article> article = ArticleRepository.findAll();
-        return article.stream().filter(c-> c.getUsername().equals(user))
-        .collect(Collectors.toList());
+        return article.stream().filter(c -> c.getUsername().equals(user))
+                .collect(Collectors.toList());
     }
-
-
 
     @GetMapping("/article/{id}")
     Article getArticleById(@PathVariable Long id) {
         return ArticleRepository.findById(id + 1)
                 .orElseThrow(() -> new UserNotFoundException(id + 1));
     }
-
+    @PostAuthorize("returnObject.username == principal.username")
     @PatchMapping("/article/{id}")
     Article updateUser(@RequestBody Article putArticle, @PathVariable Long id) {
         return ArticleRepository.findById(id)
@@ -68,7 +61,8 @@ public class ArticleController {
                     return ArticleRepository.save(user);
                 }).orElseThrow(() -> new UserNotFoundException(id));
     }
-
+    
+    @PostAuthorize("returnObject.username == principal.username")
     @DeleteMapping("/article/{id}")
     String deleteUser(@PathVariable Long id) {
         if (!ArticleRepository.existsById(id)) {

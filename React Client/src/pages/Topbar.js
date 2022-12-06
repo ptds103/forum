@@ -2,13 +2,10 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { fetchUserData, createNewUser } from "../api/authenticationService";
-import { TopUser } from "../api/authenticationService";
 
 export const Topbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [u, setU] = useState("");
   const [list] = useState(["javascript", "java", "react", "angular", "mongoDB", "mySQL", "nodejs", "springboot"]);
   const logOut = () => {
     localStorage.clear();
@@ -18,15 +15,15 @@ export const Topbar = () => {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid mb-4">
+        <div className="container-fluid mb-1">
           <button className="navbar-toggler" type="button">
             <i className="fas fa-bars"></i>
           </button>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <a className="nav-link" href="/dashboard">
+              <li className="nav-item ">
+                <a className="nav-link " style={{ fontSize: "30px" }} href="/dashboard">
                   Home
                 </a>
               </li>
@@ -35,12 +32,12 @@ export const Topbar = () => {
 
           <div className="d-flex align-items-center">
             {localStorage.getItem("USER_KEY") && (
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <ul className="navbar-nav ">
                 <li className="nav-item">
                   <Link to="/user">
-                    <Button style={{ marginRight: "5px" }}>User Info</Button>
+                    <Button style={{ height: 40, borderBottom: "0px", marginRight: "5px" }}>User Info</Button>
                   </Link>
-                  <Button style={{ marginLeft: "5px" }} onClick={() => logOut()}>
+                  <Button style={{ height: 40, borderBottom: "0px", marginLeft: "5px" }} onClick={() => logOut()}>
                     Logout
                   </Button>
                 </li>
@@ -49,13 +46,13 @@ export const Topbar = () => {
           </div>
         </div>
       </nav>
-      <div className="row " style={{ width: 1000, height: 30 }}>
-        <div className=" col-sm-2 px-sm-2 px-0 bg-dark ">
-          <div className="align-items-sm-start px-3 pt-2 text-white min-vh-100 ">
-            <ul className="collapse show nav flex-column ms-1">
+      <div className="row " style={{ width: "80em", height: "13px" }}>
+        <div className=" col-sm-2 px-sm-1 bg-dark " style={{ height: "890px" }}>
+          <div className="px-4 pt-5 text-white" style={{ fontSize: "20px" }}>
+            <ul className="nav flex-column">
               {list.map((e, i) => (
-                <li key={i} className="w-25">
-                  <a href={"/article/" + e} className="nav-link px-0">
+                <li key={i} className="">
+                  <a href={"/article/" + e} className="nav-link ">
                     <span className="d-none d-sm-inline">{e}</span>{" "}
                   </a>
                 </li>

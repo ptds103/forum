@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {Pagination} from './Pagination';
 import { TopUser } from "../api/authenticationService";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 const MainWrapper = styled.div`
   margin-left: 100px;

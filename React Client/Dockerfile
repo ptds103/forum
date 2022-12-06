@@ -1,39 +1,36 @@
-#### Stage 1: Build the react application
-FROM node:12.4.0-alpine as build
+# #### Stage 1: Build the react application
+# FROM node:12.4.0-alpine as build
+# WORKDIR /app
+# COPY package.json package-lock.json ./
+# RUN npm install
+# COPY . ./
+# ARG REACT_APP_API_BASE_URL
+# ENV REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}
+# RUN npm run build
 
-# Configure the main working directory inside the docker image. 
-# This is the base directory used in any further RUN, COPY, and ENTRYPOINT 
-# commands.
+# FROM nginx:1.17.0-alpine
+# COPY --from=build /app/build /var/www
+# COPY nginx.conf /etc/nginx/nginx.conf
+# EXPOSE 80
+
+# ENTRYPOINT ["nginx","-g","daemon off;"]
+# pull official base image
+FROM node:13.12.0-alpine
+
+# set working directory
 WORKDIR /app
 
-# Copy the package.json as well as the package-lock.json and install 
-# the dependencies. This is a separate step so the dependencies 
-# will be cached unless changes to one of those two files 
-# are made.
-COPY package.json package-lock.json ./
-RUN npm install
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-# Copy the main application
+# install app dependencies
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install --silent
+RUN npm install react-scripts@3.4.1 -g --silent
+
+# add app
 COPY . ./
 
-# Arguments
-ARG REACT_APP_API_BASE_URL
-ENV REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}
-
-# Build the application
-RUN npm run build
-
-#### Stage 2: Serve the React application from Nginx 
-FROM nginx:1.17.0-alpine
-
-# Copy the react build from Stage 1
-COPY --from=build /app/build /var/www
-
-# Copy our custom nginx config
-COPY nginx.conf /etc/nginx/nginx.conf
-
-# Expose port 3000 to the Docker host, so we can access it 
-# from the outside.
-EXPOSE 80
-
-ENTRYPOINT ["nginx","-g","daemon off;"]
+# start app
+CMD ["npm", "start"]

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { authenticate, authFailure, authSuccess } from "../redux/authActions";
+import { useNavigate } from "react-router-dom";
+
 import { ArticleCreate } from "../api/authenticationService";
 
 export const Write = () => {
   const [lists] = useState(["javascript", "java", "react", "angular", "mongoDB", "mySQL", "node.js", "springboot"]);
-  const userIDName = localStorage.getItem("USER").toLowerCase()
+  const userIDName = localStorage.getItem("USER").toLowerCase();
   const [article, setArticle] = useState({
     title: "",
     body: "",
@@ -16,7 +16,7 @@ export const Write = () => {
   let navigate = useNavigate();
   const onInputChange = (e) => {
     setArticle({ ...article, [e.target.name]: e.target.value });
-    console.log(article)
+    console.log(article);
   };
 
   const onSubmit = async (e) => {
@@ -24,7 +24,7 @@ export const Write = () => {
     ArticleCreate(article).then((res) => {
       console.log(res);
     });
-    navigate(-1)
+    navigate(-1);
   };
 
   return (
@@ -59,7 +59,7 @@ export const Write = () => {
                 </select>
               </label>
             </div>
-            
+
             <button type="submit" className="btn btn-outline-primary">
               Submit
             </button>
