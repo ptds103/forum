@@ -32,12 +32,24 @@
   margin: auto;
   text-align: end;
 }
-.pagin {
+.pagin {  
   display: block;
 }
 .tabl {
-  width: 85rem;
+  display: flex;
+  /* width: 75rem; */
+  text-decoration: none;
+  color: white;
+  margin-right: 0rem;
 }
+.tabl :visited{
+  color: goldenrod;
+}
+.tabl :hover {
+  text-decoration: none;
+  color: white;
+}
+
 
 .button-65 {
   margin-top: 2.3rem;
@@ -49,4 +61,13 @@
   color: #ffffff;
   font-family: Phantomsans, sans-serif;
   font-size: 50px;
+}
+.video{
+  border-radius: 1px solid black;
+  margin: 5px;
+
+}
+.pagination{
+  float: right;
+  margin-right: 22rem;
 }
