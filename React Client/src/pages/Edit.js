@@ -43,9 +43,9 @@ export const Edit = () => {
     navigate('/article/' + article.section)
   };
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-6 offset-md-3 border rounded p-4 mt-2">
+    <div className="card" style={{ width: "60rem", height:"40rem", paddingLeft: "11em", paddingRight: "11em", marginLeft: "28em", marginTop: "5em",  opacity: "0.9"}}>
+
+       
           <h2 className="text-center m-4"> Edit Article</h2>
 
           <form onSubmit={(e) => onSubmit(e)}>
@@ -85,8 +85,8 @@ export const Edit = () => {
               cancel
             </button>
           </form>
-        </div>
-      </div>
+
+
     </div>
   );
 };

@@ -30,7 +30,7 @@ export const Write = () => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-md-6 offset-md-3 border rounded p-4 mt-2">
+        <div className="col-md-6 offset-md-3 border rounded p-4 mt-2" style={{background:"white"}}>
           <h2 className="text-center m-4"> Write your article</h2>
 
           <form onSubmit={(e) => onSubmit(e)}>

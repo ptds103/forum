@@ -44,7 +44,7 @@ export const Mypost = () => {
       <div className="">
         <ul>
           {currentPosts.map((e, i) => (
-            <li className="list-group-item ">
+            <li className="list-group-item " >
               <h4>
                 Title: <spam>{e.title}</spam>{" "}
               </h4>
@@ -53,7 +53,7 @@ export const Mypost = () => {
                 continue on...
               </button>
               </Link>
-              <h4 className="list float right">Wrote by: {e.username}</h4>
+              <h4 className="float right">Wrote by: {e.username}</h4>
             </li>
           ))}
         </ul>
