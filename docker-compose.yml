@@ -1,53 +1,40 @@
-# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
-
-version: '3.8'
-
-# Define services
+version: "3.8"
 services:
-  # App backend service
-  app-server:
-    # Configuration for building the docker image for the backend service
+
+
+  securityclient:
     build:
-      context: "SpringBoot Backend" # Use an image built from the specified dockerfile in the `polling-app-server` directory.
+      context: React Client 
       dockerfile: Dockerfile
-    ports:
-      - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
-    depends_on:
-      - mysqldb
     restart: on-failure
-
-
-  # Frontend Service 
-  app-client:
-    build:
-      context: React Client # Use an image built from the specified dockerfile in the `polling-app-client` directory.
-      dockerfile: Dockerfile
-      args:
-        REACT_APP_API_BASE_URL: http://127.0.0.1:8080
     ports:
-      - "9090:80" # Forward the exposed port 80 on the container to port 80 on the host machine
-    restart: on-failure
-    depends_on:
-      - app-server
-    networks:
-      - frontend  
-
-  # Database Service (Mysql)
-  database:
-    container_name: mysqldb
-    image: mysql:5.7
-    ports:
-      - "3307:3306"
-    restart: always
+      - "3000:3000"
+      
+  mysql:
+    image: mysql:8
+    restart: unless-stopped
     environment:
-      MYSQL_DATABASE: forum
-      MYSQL_USER: root1
-      MYSQL_PASSWORD: root12
-      MYSQL_ROOT_PASSWORD: root12
-  
-# Volumes
+      - MYSQL_DATABASE=forum
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - 3307:3306
 
-# Networks to be created to facilitate communication between containers
-networks:
-  backend:
-  frontend:    
+
+  secuirtyserver:
+    depends_on:
+      - mysql
+    build: 
+      context: SpringBoot Backend
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "8080:8080" 
+
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url":"jdbc:mysql://mysql:3306/forum",
+        "spring.datasource.username":"root",
+        "spring.datasource.password":"root",
+        "spring.jpa.properties.hibernate.dialect":"org.hibernate.dialect.MySQL5InnoDBDialect",
+        "spring.jpa.hibernate.ddl-auto":"update"
+        }'
